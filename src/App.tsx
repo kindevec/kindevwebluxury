@@ -9,11 +9,15 @@ import { PropertyModal } from './components/PropertyModal';
 import { BrochureModal } from './components/BrochureModal';
 import { Preloader } from './components/Preloader';
 import { SmoothScroll } from './components/SmoothScroll';
-import { HomePage } from './pages/HomePage';
-import { PropertiesPage } from './pages/PropertiesPage';
-import { AmenitiesPage } from './pages/AmenitiesPage';
-import { InvestPage } from './pages/InvestPage';
-import { ContactPage } from './pages/ContactPage';
+import { CustomCursor } from './components/CustomCursor';
+import { NoiseOverlay } from './components/NoiseOverlay';
+
+// Lazy loaded pages for performance
+const HomePage = React.lazy(() => import('./pages/HomePage').then(module => ({ default: module.HomePage })));
+const PropertiesPage = React.lazy(() => import('./pages/PropertiesPage').then(module => ({ default: module.PropertiesPage })));
+const AmenitiesPage = React.lazy(() => import('./pages/AmenitiesPage').then(module => ({ default: module.AmenitiesPage })));
+const InvestPage = React.lazy(() => import('./pages/InvestPage').then(module => ({ default: module.InvestPage })));
+const ContactPage = React.lazy(() => import('./pages/ContactPage').then(module => ({ default: module.ContactPage })));
 
 // Scroll to top helper on route change
 function ScrollToTop() {
@@ -36,33 +40,37 @@ export default function App() {
       <ScrollToTop />
       <Preloader>
       <div className="min-h-screen flex flex-col bg-[#0F172A] text-[#F1F5F9] font-sans relative selection:bg-[#C5A880] selection:text-[#0F172A] overflow-x-hidden">
+        <NoiseOverlay />
+        <CustomCursor />
         {/* Header */}
         <Header onOpenBrochureModal={() => setIsBrochureModalOpen(true)} />
 
         {/* Main View Area */}
         <main className="flex-grow">
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <HomePage
-                  onSelectProperty={(prop) => setSelectedProperty(prop)}
-                  onOpenBrochureModal={() => setIsBrochureModalOpen(true)}
-                />
-              }
-            />
-            <Route
-              path="/propiedades"
-              element={
-                <PropertiesPage
-                  onSelectProperty={(prop) => setSelectedProperty(prop)}
-                />
-              }
-            />
-            <Route path="/amenidades" element={<AmenitiesPage />} />
-            <Route path="/invierte" element={<InvestPage />} />
-            <Route path="/contacto" element={<ContactPage />} />
-          </Routes>
+          <React.Suspense fallback={<div className="h-screen w-full flex items-center justify-center"><div className="w-8 h-8 border-2 border-[#C5A880] border-t-transparent rounded-full animate-spin"></div></div>}>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <HomePage
+                    onSelectProperty={(prop) => setSelectedProperty(prop)}
+                    onOpenBrochureModal={() => setIsBrochureModalOpen(true)}
+                  />
+                }
+              />
+              <Route
+                path="/propiedades"
+                element={
+                  <PropertiesPage
+                    onSelectProperty={(prop) => setSelectedProperty(prop)}
+                  />
+                }
+              />
+              <Route path="/amenidades" element={<AmenitiesPage />} />
+              <Route path="/invierte" element={<InvestPage />} />
+              <Route path="/contacto" element={<ContactPage />} />
+            </Routes>
+          </React.Suspense>
         </main>
 
         {/* Footer */}

@@ -23,6 +23,7 @@ import { motion, useScroll, useTransform } from 'motion/react';
 import { WhatsAppIcon } from '../components/SocialLogos';
 import { ScrollReveal, StaggerContainer, StaggerItem } from '../components/ScrollAnimations';
 import { MagneticButton } from '../components/MagneticButton';
+import { AnimatedText } from '../components/AnimatedText';
 
 interface HomePageProps {
   onSelectProperty: (property: Property) => void;
@@ -78,14 +79,11 @@ export const HomePage: React.FC<HomePageProps> = ({ onSelectProperty, onOpenBroc
             <span>Valenza Real Estate & Luxury Living</span>
           </motion.div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+          <AnimatedText
+            text="Tu Nuevo Estilo de Vida"
+            delay={0.2}
             className="font-serif text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white leading-[1.1]"
-          >
-            Tu Nuevo <span className="gold-gradient-text italic">Estilo de Vida</span>
-          </motion.h1>
+          />
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
