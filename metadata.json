@@ -1,0 +1,6 @@
+{
+  "name": "Valenza Real Estate & Luxury Living",
+  "description": "Proyectos residenciales exclusivos, departamentos y casas de alta gama.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
