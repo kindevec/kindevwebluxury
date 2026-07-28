@@ -9,7 +9,6 @@ import { PropertyModal } from './components/PropertyModal';
 import { BrochureModal } from './components/BrochureModal';
 import { Preloader } from './components/Preloader';
 import { SmoothScroll } from './components/SmoothScroll';
-import { CustomCursor } from './components/CustomCursor';
 import { NoiseOverlay } from './components/NoiseOverlay';
 
 // Lazy loaded pages for performance
@@ -41,7 +40,6 @@ export default function App() {
       <Preloader>
       <div className="min-h-screen flex flex-col bg-[#0F172A] text-[#F1F5F9] font-sans relative selection:bg-[#C5A880] selection:text-[#0F172A] overflow-x-hidden">
         <NoiseOverlay />
-        <CustomCursor />
         {/* Header */}
         <Header onOpenBrochureModal={() => setIsBrochureModalOpen(true)} />
 

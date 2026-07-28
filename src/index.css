@@ -63,10 +63,3 @@
   scrollbar-width: none;
 }
 
-/* Hide native cursor on desktop to use CustomCursor */
-@media (pointer: fine) {
-  body, a, button, input, select, textarea {
-    cursor: none !important;
-  }
-}
-
