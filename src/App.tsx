@@ -7,6 +7,8 @@ import { MobileBottomNav } from './components/MobileBottomNav';
 import { WhatsAppFab } from './components/WhatsAppFab';
 import { PropertyModal } from './components/PropertyModal';
 import { BrochureModal } from './components/BrochureModal';
+import { Preloader } from './components/Preloader';
+import { SmoothScroll } from './components/SmoothScroll';
 import { HomePage } from './pages/HomePage';
 import { PropertiesPage } from './pages/PropertiesPage';
 import { AmenitiesPage } from './pages/AmenitiesPage';
@@ -29,8 +31,10 @@ export default function App() {
   const [isBrochureModalOpen, setIsBrochureModalOpen] = useState(false);
 
   return (
+    <SmoothScroll>
     <HashRouter>
       <ScrollToTop />
+      <Preloader>
       <div className="min-h-screen flex flex-col bg-[#0F172A] text-[#F1F5F9] font-sans relative selection:bg-[#C5A880] selection:text-[#0F172A] overflow-x-hidden">
         {/* Header */}
         <Header onOpenBrochureModal={() => setIsBrochureModalOpen(true)} />
@@ -86,6 +90,8 @@ export default function App() {
           onClose={() => setIsBrochureModalOpen(false)}
         />
       </div>
+      </Preloader>
     </HashRouter>
+    </SmoothScroll>
   );
 }

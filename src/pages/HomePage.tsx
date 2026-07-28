@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { PROPERTIES_DATA } from '../data/propertiesData';
 import { AMENITIES_DATA, TESTIMONIALS_DATA } from '../data/amenitiesData';
@@ -19,8 +19,10 @@ import {
   Quote,
   ChevronRight
 } from 'lucide-react';
-import { motion } from 'motion/react';
+import { motion, useScroll, useTransform } from 'motion/react';
 import { WhatsAppIcon } from '../components/SocialLogos';
+import { ScrollReveal, StaggerContainer, StaggerItem } from '../components/ScrollAnimations';
+import { MagneticButton } from '../components/MagneticButton';
 
 interface HomePageProps {
   onSelectProperty: (property: Property) => void;
@@ -34,6 +36,16 @@ export const HomePage: React.FC<HomePageProps> = ({ onSelectProperty, onOpenBroc
 
   const featuredProperties = PROPERTIES_DATA.slice(0, 4);
 
+  // Hero parallax
+  const heroRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress: heroScroll } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start'],
+  });
+  const heroImageY = useTransform(heroScroll, [0, 1], ['0%', '30%']);
+  const heroImageScale = useTransform(heroScroll, [0, 1], [1.05, 1.2]);
+  const heroOpacity = useTransform(heroScroll, [0, 0.8], [1, 0]);
+
   const handleSearchRedirect = () => {
     navigate(`/propiedades?typology=${filterTypology}&maxPrice=${filterPrice}`);
   };
@@ -41,20 +53,21 @@ export const HomePage: React.FC<HomePageProps> = ({ onSelectProperty, onOpenBroc
   return (
     <div className="space-y-24 pb-16">
       {/* SECTION 1: HERO CINEMATOGRÁFICO */}
-      <section className="relative min-h-screen flex items-center justify-center pt-24 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
-        {/* Background Image with Dark Vignette Overlay */}
-        <div className="absolute inset-0 z-0">
-          <img
+      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center pt-24 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        {/* Background Image with Parallax */}
+        <motion.div className="absolute inset-0 z-0" style={{ y: heroImageY }}>
+          <motion.img
             src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=2000&q=80"
             alt="Residencia de Lujo Valenza"
-            className="w-full h-full object-cover object-center scale-105 animate-pulse duration-[10000ms]"
+            className="w-full h-full object-cover object-center"
+            style={{ scale: heroImageScale }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A] via-[#0F172A]/70 to-[#0F172A]/50" />
           <div className="absolute inset-0 bg-radial from-transparent via-[#0F172A]/40 to-[#0F172A]" />
-        </div>
+        </motion.div>
 
         {/* Hero Content */}
-        <div className="relative z-10 max-w-5xl mx-auto text-center space-y-8">
+        <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-5xl mx-auto text-center space-y-8">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -90,23 +103,24 @@ export const HomePage: React.FC<HomePageProps> = ({ onSelectProperty, onOpenBroc
             transition={{ duration: 0.8, delay: 0.6 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2"
           >
-            <button
+            <MagneticButton
               id="hero-download-brochure-btn"
               onClick={onOpenBrochureModal}
               className="w-full sm:w-auto gold-gradient-bg gold-gradient-bg-hover text-[#0F172A] font-extrabold text-xs sm:text-sm uppercase tracking-wider py-4 px-8 rounded-xl shadow-2xl flex items-center justify-center gap-2.5 transition-transform active:scale-95 cursor-pointer"
             >
               <Download className="w-4 h-4" />
               <span>Descarga el Brochure Digital</span>
-            </button>
+            </MagneticButton>
 
-            <Link
+            <MagneticButton
+              as="a"
               id="hero-explore-properties-btn"
-              to="/propiedades"
+              href="#/propiedades"
               className="w-full sm:w-auto glass-card hover:bg-slate-800 text-slate-100 font-bold text-xs sm:text-sm uppercase tracking-wider py-4 px-8 rounded-xl border border-[#C5A880]/30 flex items-center justify-center gap-2 transition-all hover:border-[#D4AF37]"
             >
               <Building2 className="w-4 h-4 text-[#C5A880]" />
               <span>Explorar Catálogo VIP</span>
-            </Link>
+            </MagneticButton>
           </motion.div>
 
           {/* Quick Filter Search Bar */}
@@ -163,39 +177,50 @@ export const HomePage: React.FC<HomePageProps> = ({ onSelectProperty, onOpenBroc
               </div>
             </div>
           </motion.div>
-        </div>
+        </motion.div>
       </section>
 
       {/* SECTION 2: NUMEROS & PLUSVALÍA (PROOF OF EXCLUSIVITY) */}
+      <ScrollReveal>
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+        <StaggerContainer className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+          <StaggerItem>
           <div className="glass-card p-6 rounded-2xl text-center space-y-2 border border-[#C5A880]/20 hover:border-[#C5A880]/50 transition-all">
             <TrendingUp className="w-8 h-8 text-[#D4AF37] mx-auto" />
             <div className="font-serif text-3xl sm:text-4xl font-extrabold text-white">18%</div>
             <p className="text-xs text-slate-400 font-medium uppercase tracking-wider">Plusvalía Anual Promedio</p>
           </div>
+          </StaggerItem>
 
+          <StaggerItem>
           <div className="glass-card p-6 rounded-2xl text-center space-y-2 border border-[#C5A880]/20 hover:border-[#C5A880]/50 transition-all">
             <Building2 className="w-8 h-8 text-[#D4AF37] mx-auto" />
             <div className="font-serif text-3xl sm:text-4xl font-extrabold text-white">+180</div>
             <p className="text-xs text-slate-400 font-medium uppercase tracking-wider">Unidades Entregadas VIP</p>
           </div>
+          </StaggerItem>
 
+          <StaggerItem>
           <div className="glass-card p-6 rounded-2xl text-center space-y-2 border border-[#C5A880]/20 hover:border-[#C5A880]/50 transition-all">
             <Award className="w-8 h-8 text-[#D4AF37] mx-auto" />
             <div className="font-serif text-3xl sm:text-4xl font-extrabold text-white">100%</div>
             <p className="text-xs text-slate-400 font-medium uppercase tracking-wider">Acabados Importados</p>
           </div>
+          </StaggerItem>
 
+          <StaggerItem>
           <div className="glass-card p-6 rounded-2xl text-center space-y-2 border border-[#C5A880]/20 hover:border-[#C5A880]/50 transition-all">
             <ShieldCheck className="w-8 h-8 text-[#D4AF37] mx-auto" />
             <div className="font-serif text-3xl sm:text-4xl font-extrabold text-white">24/7</div>
             <p className="text-xs text-slate-400 font-medium uppercase tracking-wider">Seguridad Biométrica Smart</p>
           </div>
-        </div>
+          </StaggerItem>
+        </StaggerContainer>
       </section>
+      </ScrollReveal>
 
       {/* SECTION 3: PROPIEDADES DESTACADAS */}
+      <ScrollReveal>
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-800 pb-6">
           <div className="space-y-2">
@@ -306,8 +331,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onSelectProperty, onOpenBroc
           ))}
         </div>
       </section>
+      </ScrollReveal>
 
       {/* SECTION 4: AMENIDADES VIP TEASER */}
+      <ScrollReveal>
       <section className="bg-slate-900/60 py-16 border-y border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="text-center space-y-3 max-w-2xl mx-auto">
@@ -357,8 +384,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onSelectProperty, onOpenBroc
           </div>
         </div>
       </section>
+      </ScrollReveal>
 
       {/* SECTION 5: PRUEBA SOCIAL / TESTIMONIOS */}
+      <ScrollReveal>
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="text-center space-y-3 max-w-2xl mx-auto">
           <span className="text-xs uppercase tracking-[0.25em] font-bold text-[#C5A880]">
@@ -400,8 +429,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onSelectProperty, onOpenBroc
           ))}
         </div>
       </section>
+      </ScrollReveal>
 
       {/* SECTION 6: CTA IMPACTANTE FINAL */}
+      <ScrollReveal>
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative rounded-3xl overflow-hidden glass-card p-8 sm:p-14 border border-[#C5A880]/40 text-center space-y-6">
           <div className="absolute inset-0 bg-gradient-to-r from-[#C5A880]/10 via-transparent to-[#D4AF37]/10 pointer-events-none" />
@@ -419,7 +450,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onSelectProperty, onOpenBroc
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-            <a
+            <MagneticButton
+              as="a"
               id="cta-home-whatsapp-direct"
               href="https://wa.me/593991952889?text=Hola,%20deseo%20agendar%20una%20cita%20VIP%20en%20la%20sala%20de%20ventas"
               target="_blank"
@@ -428,19 +460,20 @@ export const HomePage: React.FC<HomePageProps> = ({ onSelectProperty, onOpenBroc
             >
               <WhatsAppIcon className="w-5 h-5" />
               <span>Contactar por WhatsApp Ahora</span>
-            </a>
+            </MagneticButton>
 
-            <button
+            <MagneticButton
               id="cta-home-open-brochure"
               onClick={onOpenBrochureModal}
               className="w-full sm:w-auto gold-gradient-bg text-[#0F172A] font-extrabold text-xs uppercase tracking-wider py-4 px-8 rounded-xl shadow-2xl flex items-center justify-center gap-2"
             >
               <Download className="w-4 h-4" />
               <span>Solicitar Dossier Digital</span>
-            </button>
+            </MagneticButton>
           </div>
         </div>
       </section>
+      </ScrollReveal>
     </div>
   );
 };
