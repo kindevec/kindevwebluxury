@@ -1,4 +1,49 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <rect width="100" height="100" rx="20" fill="#3B82F6"/>
-  <path d="M35 25v50h10V55l20 20h15L55 50l20-20H60L45 45V25H35z" fill="#ffffff"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="luxBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F172A" />
+      <stop offset="100%" stop-color="#020617" />
+    </linearGradient>
+    <linearGradient id="goldLight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF3C4" />
+      <stop offset="40%" stop-color="#E6C687" />
+      <stop offset="100%" stop-color="#C5A880" />
+    </linearGradient>
+    <linearGradient id="goldDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D4AF37" />
+      <stop offset="70%" stop-color="#9A7B1C" />
+      <stop offset="100%" stop-color="#6B5210" />
+    </linearGradient>
+    <linearGradient id="platinum" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#E2E8F0" opacity="0.8"/>
+    </linearGradient>
+    <linearGradient id="slateAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#334155" />
+      <stop offset="100%" stop-color="#1E293B" />
+    </linearGradient>
+  </defs>
+
+  <rect width="512" height="512" rx="112" fill="url(#luxBg)"/>
+  <rect x="24" y="24" width="464" height="464" rx="96" fill="none" stroke="url(#goldLight)" stroke-width="4" opacity="0.35"/>
+
+  <polygon points="256,75 310,135 202,135" fill="url(#platinum)" />
+  <polygon points="202,135 256,75 130,135" fill="url(#goldLight)" />
+  <polygon points="310,135 256,75 382,135" fill="url(#goldDark)" />
+
+  <polygon points="130,135 202,135 256,185 130,135" fill="url(#goldDark)" />
+  <polygon points="202,135 310,135 256,185" fill="url(#goldLight)" />
+  <polygon points="310,135 382,135 256,185" fill="url(#slateAccent)" stroke="url(#goldLight)" stroke-width="1" />
+
+  <polygon points="130,150 230,380 265,380 175,150" fill="url(#goldLight)" />
+  <polygon points="150,150 230,340 245,340 175,150" fill="url(#platinum)" opacity="0.4" />
+
+  <polygon points="382,150 282,380 247,380 337,150" fill="url(#goldDark)" />
+
+  <polygon points="256,195 285,380 256,435 227,380" fill="url(#platinum)" opacity="0.9"/>
+
+  <rect x="160" y="445" width="192" height="14" rx="7" fill="url(#goldLight)"/>
+
+  <polygon points="100,100 106,114 120,120 106,126 100,140 94,126 80,120 94,114" fill="url(#goldLight)" opacity="0.8" />
+  <polygon points="412,100 418,114 432,120 418,126 412,140 406,126 392,120 406,114" fill="url(#goldLight)" opacity="0.8" />
 </svg>
